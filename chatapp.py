@@ -17,20 +17,24 @@ def chat():
     response = "Message received hehe :3: " + message
     return response   
  
-chat_messages = []
+
+# Update the send_message endpoint to store messages in the database
 @app.route('/send_message', methods=['POST'])
 def send_message():
     data = request.get_json()
-    sender = data.get('sender')
-    recipient = data.get('recipient')
     message = data.get('message')
-    chat_messages.append({'sender': sender, 'recipient': recipient, 'message': message})
+    # Store the message in the database instead of chat_messages list
+    # Insert the message into the database table for chat messages
+    # Example: db.insert_message(message)
     return jsonify({'message': 'Message sent successfully'})
 
-@app.route('/get_messages/<recipient>', methods=['GET'])
-def get_messages(recipient):
-    recipient_messages = [msg for msg in chat_messages if msg['recipient'] == recipient]
-    return jsonify({'messages': recipient_messages})
+# Modify the get_messages endpoint to return all messages for the global chat
+@app.route('/get_messages', methods=['GET'])
+def get_messages():
+    # Retrieve all messages from the database
+    # Example: messages = db.get_all_messages()
+    # Return all messages as JSON
+    return jsonify({'messages': messages})
 
 if __name__ == "__main__":
     app.run()
