@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<htmL>
+<head> 
+    <title>TwomPro Chat App</title>
+</head>
+<body> 
+    <form>method="POST">
+        <label>TwomPro: </label>
+        <input type="text" name="textbox" value="{{user_text | safe}}"><br>
+        <label>ChatApp:</label>
+        <label>{{output | safe}}</label><br>
+        <button type="submit" name="submit">Convert</button>
+    </form>
+</body>
+</html>
