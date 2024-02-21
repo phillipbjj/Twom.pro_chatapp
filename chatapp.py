@@ -19,6 +19,10 @@ def chat():
  
 
 # Update the send_message endpoint to store messages in the database
+"""Modify the code snippets in your Flask application to interact with the MongoDB database:
+Snippet 1:
+Update the send_message endpoint to insert messages into the MongoDB collection for chat messages.
+Update the get_messages endpoint to retrieve all messages from the MongoDB collection."""
 @app.route('/send_message', methods=['POST'])
 def send_message():
     data = request.get_json()
@@ -38,3 +42,16 @@ def get_messages():
 
 if __name__ == "__main__":
     app.run()
+    
+    
+"""Inserting Messages into MongoDB:
+
+Use PyMongo to insert chat messages into the MongoDB collection.
+You can insert messages as JSON documents containing sender, timestamp, content, etc.
+Retrieving Messages from MongoDB:
+
+Use PyMongo to query the MongoDB collection and retrieve messages for the global chat.
+You can retrieve messages based on criteria like timestamps, keywords, or sender information.
+Data Modeling Considerations:
+
+When designing your MongoDB schema, consider how to structure chat messages, handle references to keywords, and manage relationships with other site elements."""
