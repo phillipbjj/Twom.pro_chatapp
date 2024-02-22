@@ -1,57 +1,38 @@
-from flask import Flask, render_template, request, jsonify
-import backend
 
-app = Flask(__name__)
+from flask import Flask, render_template, request, jsonify      #Imports necessary modules from Flask for creating a web application and handling requests
+from pymongo import MongoClient     #Imports the MongoClient class from pymongo for interacting with MongoDB
 
-@app.route("/", methods = ["GET", "POST"])
-def home():
-    if request.method == "GET":
-        return render_template("index.html")
-    if request.method == "POST":
-        text = request.form.get('textbox')
-        return render_template("index.html", output = backend.twompro_chatapp(float(text)), user_text = text)
-    
-@app.route('/chat', methods=['POST'])    
-def chat():                             
-    message = request.form["message"]   
-    response = "Message received hehe :3: " + message
-    return response   
- 
+app = Flask(__name__)   #Creates a Flask application instance
+client = MongoClient("your_mongodb_connection_string")  #Establishes a connection to MongoDB Atlas using the provided connection string
+db = client["chat_app"] #Accesses the "chat_app" database in MongoDB Atlas
+messages_collection = db["messages"]    #Accesses the "messages" collection within the "chat_app" database
 
-# Update the send_message endpoint to store messages in the database
-"""Modify the code snippets in your Flask application to interact with the MongoDB database:
-Snippet 1:
-Update the send_message endpoint to insert messages into the MongoDB collection for chat messages.
-Update the get_messages endpoint to retrieve all messages from the MongoDB collection."""
+@app.route("/", methods=["GET", "POST"])    #Decorator that defines a route for both GET and POST requests to the root URL
+def home(): #Defines the view function for the "/" route
+    if request.method == "GET": #Checks if the request method is GET
+        return render_template("index.html")    #Renders the "index.html" template for GET requests
+    if request.method == "POST":    #Checks if the request method is POST
+        text = request.form.get('textbox')  #Retrieves the text input from the form field named 'textbox'
+        # Process the text if needed
+        return render_template("index.html", output=process_text(text), user_text=text) #Renders the template with processed text and the original user input
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    message = request.form["message"]
+    response = "Message received: " + message
+    return response
+
 @app.route('/send_message', methods=['POST'])
 def send_message():
     data = request.get_json()
     message = data.get('message')
-    # Store the message in the database instead of chat_messages list
-    # Insert the message into the database table for chat messages
-    # Example: db.insert_message(message)
+    messages_collection.insert_one({"message": message})
     return jsonify({'message': 'Message sent successfully'})
 
-# Modify the get_messages endpoint to return all messages for the global chat
 @app.route('/get_messages', methods=['GET'])
 def get_messages():
-    # Retrieve all messages from the database
-    # Example: messages = db.get_all_messages()
-    # Return all messages as JSON
+    messages = [msg["message"] for msg in messages_collection.find()]
     return jsonify({'messages': messages})
 
 if __name__ == "__main__":
     app.run()
-    
-    
-"""Inserting Messages into MongoDB:
-
-Use PyMongo to insert chat messages into the MongoDB collection.
-You can insert messages as JSON documents containing sender, timestamp, content, etc.
-Retrieving Messages from MongoDB:
-
-Use PyMongo to query the MongoDB collection and retrieve messages for the global chat.
-You can retrieve messages based on criteria like timestamps, keywords, or sender information.
-Data Modeling Considerations:
-
-When designing your MongoDB schema, consider how to structure chat messages, handle references to keywords, and manage relationships with other site elements."""
