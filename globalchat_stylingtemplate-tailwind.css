@@ -1,0 +1,59 @@
+/* CSS file for Global Chat using TailwindCSS */
+
+/* Apply TailwindCSS utilities */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styling for the chat container */
+.chat-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Styling for chat messages container */
+.chat-messages {
+    height: 300px;
+    overflow-y: scroll;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* Styling for message input field */
+#messageInput {
+    width: calc(100% - 80px);
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+/* Styling for send button */
+#sendButton {
+    padding: 5px 10px;
+    background-color: #3182ce;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Responsive design for mobile devices */
+@media (max-width: 768px) {
+    .chat-container {
+        padding: 10px;
+    }
+
+    #messageInput {
+        width: calc(100% - 60px);
+    }
+}
+
+/* This CSS file provides basic styling for the global chat application using TailwindCSS. 
+It includes styling for the chat container, chat messages, message input field, and send button. 
+You can further customize the styles to match your design preferences and make the chat interface more visually appealing. */
