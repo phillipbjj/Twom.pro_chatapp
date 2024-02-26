@@ -7,53 +7,31 @@
 
 /* Custom styling for the chat container */
 .chat-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    @apply max-w-600 mx-auto p-20 border border-solid border-gray-300 rounded-lg;
 }
 
 /* Styling for chat messages container */
 .chat-messages {
-    height: 300px;
-    overflow-y: scroll;
-    border: 1px solid #eee;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
+    @apply h-300 overflow-y-scroll border border-solid border-gray-200 rounded-lg p-10 mb-10;
 }
 
 /* Styling for message input field */
 #messageInput {
-    width: calc(100% - 80px);
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-right: 10px;
+    @apply w-full calc:w-100/2-10 p-5 border border-solid border-gray-300 rounded-lg mr-10;
 }
 
 /* Styling for send button */
 #sendButton {
-    padding: 5px 10px;
-    background-color: #3182ce;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    @apply p-5/10 bg-blue-500 text-white border-none rounded-lg cursor-pointer;
 }
 
 /* Responsive design for mobile devices */
 @media (max-width: 768px) {
     .chat-container {
-        padding: 10px;
+        @apply p-10;
     }
 
     #messageInput {
-        width: calc(100% - 60px);
+        @apply w-full calc:w-100/2-20;
     }
 }
-
-/* This CSS file provides basic styling for the global chat application using TailwindCSS. 
-It includes styling for the chat container, chat messages, message input field, and send button. 
-You can further customize the styles to match your design preferences and make the chat interface more visually appealing. */
