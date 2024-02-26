@@ -1,6 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/**/*.html', './src/**/*.js', './src/**/*.jsx'],
+  content: [
+    './globalchat_stylingtemplate-tailwind.css',
+    './globalchat_template.html',
+    './globalchat-output.css',
+  ],
   theme: {
     extend: {},
   },
