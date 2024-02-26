@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['/Git/Twom.pro_chatapp/globalchat_stylingtemplate-tailwind.css', '/Git/Twom.pro_chatapp/globalchat_template.html'],
+  content: ['./src/**/*.html', './src/**/*.js', './src/**/*.jsx'],
   theme: {
     extend: {},
   },
