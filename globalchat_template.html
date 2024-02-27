@@ -1,4 +1,3 @@
-<!-- HTML Template for Global Chat -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +6,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Global Chat</title>
     <link rel="stylesheet" href="globalchat-output.css"> <!-- Link to your CSS file -->
+    <style>
+        /* Custom styling to match the previous CSS template */
+        .chat-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .chat-messages {
+            height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        #messageInput {
+            width: calc(100% - 80px);
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        #sendButton {
+            padding: 5px 10px;
+            background-color: #3182ce;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <div class="chat-container">
@@ -21,8 +56,3 @@
     <script src="script.js"></script> <!-- Link to your JavaScript file -->
 </body>
 </html>
-
-<!--The page includes a container for displaying chat messages, an input field for typing messages, and a send button.
-It links to an external CSS file for styling.
-It includes the Socket.IO library for real-time communication.
-It links to an external JavaScript file where you will implement the chat functionality.-->
