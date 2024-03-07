@@ -1,38 +1,58 @@
+from flask import Flask, render_template, session
+from flask_socketio import SocketIO, emit
+from pymongo import MongoClient
+from pymongo.server_api import ServerApi
+import datetime
 
-from flask import Flask, render_template, request, jsonify      #Imports necessary modules from Flask for creating a web application and handling requests
-from pymongo import MongoClient     #Imports the MongoClient class from pymongo for interacting with MongoDB
+#Flask app
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'secretkeyhere' #This key should be a random string and it’s used for session handling.
 
-app = Flask(__name__)   #Creates a Flask application instance
-client = MongoClient("your_mongodb_connection_string")  #Establishes a connection to MongoDB Atlas using the provided connection string
-db = client["chat_app"] #Accesses the "chat_app" database in MongoDB Atlas
-messages_collection = db["messages"]    #Accesses the "messages" collection within the "chat_app" database
 
-@app.route("/", methods=["GET", "POST"])    #Decorator that defines a route for both GET and POST requests to the root URL
-def home(): #Defines the view function for the "/" route
-    if request.method == "GET": #Checks if the request method is GET
-        return render_template("index.html")    #Renders the "index.html" template for GET requests
-    if request.method == "POST":    #Checks if the request method is POST
-        text = request.form.get('textbox')  #Retrieves the text input from the form field named 'textbox'
-        # Process the text if needed
-        return render_template("index.html", output=process_text(text), user_text=text) #Renders the template with processed text and the original user input
+#MongoDB Client
+uri = "mongodb+srv://pjdempsey3:<Ilovebjj123>@twomprochat.ncz4mxt.mongodb.net/?retryWrites=true&w=majority&appName=Twomprochat"
+client = MongoClient(uri, server_api=ServerApi('1'))
+chat_db = client['ChatData']
+message_Collection = chat_db['messageData']
+user_collect = chat_db['userData']
+msgtime_collection = chat_db['timestampData']
 
-@app.route('/chat', methods=['POST'])   #Decorator that defines a route '/chat' which only accepts POST requests
-def chat():     #Defines the view function for the '/chat' route
-    message = request.form["message"]   #Retrieves the 'message' data from the POST request form
-    response = "Message received: " + message   #Creates a response message indicating that the message was received
-    return response     #Returns the response message to the client
+#SocketIO
+socketio = SocketIO(app)
+chat_messages = []
 
-@app.route('/send_message', methods=['POST'])   #Decorator for the '/send_message' route that accepts POST requests
-def send_message():     #Defines the view function for sending messages
-    data = request.get_json()   #Retrieves JSON data from the request
-    message = data.get('message')   #Extracts the 'message' field from the JSON data
-    messages_collection.insert_one({"message": message})    #Inserts the message into the 'messages_collection' in MongoDB
-    return jsonify({'message': 'Message sent successfully'})    #Returns a JSON response indicating successful message transmission
+#This is defining the route for your main page. When someone visits your website, the index function gets called. 
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-@app.route('/get_messages', methods=['GET'])    #Decorator for the '/get_messages' route that only accepts GET requests
-def get_messages(): #Defines the view function for fetching messages
-    messages = [msg["message"] for msg in messages_collection.find()]   #Retrieves all messages from the 'messages_collection' in MongoDB
-    return jsonify({'messages': messages})      #Returns a JSON response containing all messages fetched
+#Route for the chat room
+@app.route('/chat')
+def chat():
+    #Retrieve chat messages from the database or cache
+    chat_messages = list(message_Collection.find().sort("timestamp", -1))
+    return render_template('chat.html', chat_messages=chat_messages)
 
-if __name__ == "__main__":      #Checks if the script is being run directly
-    app.run()       #Starts the Flask application when the script is executed directly
+#SocketIO event handler for new messages    
+@socketio.on('message')
+def handle_message(data):
+    message = data['message']
+    sender = data.get('sender', 'Anonymous')
+    timestamp = datetime.datetime.now()
+    
+    # Save the message to MongoDB
+    message_Collection.insert_one({
+        'sender': sender,
+        'content': message,
+        'timestamp': timestamp
+    })
+    
+    # Broadcast the new message to all connected clients
+    emit('new_message', {
+        'sender': sender,
+        'message': message,
+        'timestamp': timestamp.strftime("%Y-%m-%d %H:%M:%S")
+    }, broadcast=True)
+    
+if __name__ == '__main__':
+    socketio.run(app)
