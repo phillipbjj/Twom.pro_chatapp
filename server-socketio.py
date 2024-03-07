@@ -14,7 +14,7 @@ def disconnect(sid):
     print('Client disconnected:', sid)
 
 @sio.event
-def chat_message(sid, data):
+def handle_messages(sid, data):
     sio.emit('chat message', data)
 
 # Run the Socket.IO server
