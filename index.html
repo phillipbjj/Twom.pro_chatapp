@@ -1,15 +1,25 @@
 <!DOCTYPE html>
-<htmL>
-<head> 
-    <title>TwomPro Chat App</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body> 
-    <form>method="POST">
-        <label>TwomPro: </label>
-        <input type="text" name="textbox" value="{{user_text | safe}}"><br>
-        <label>ChatApp:</label>
-        <label>{{output | safe}}</label><br>
-        <button type="submit" name="submit">Convert</button>
-    </form>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h2>Chat Room</h2>
+        </div>
+        <div class="chat-messages">
+            <!-- Chat messages will be dynamically added here -->
+        </div>
+        <div class="chat-input">
+            <input type="text" placeholder="Type your message..." id="message-input">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>

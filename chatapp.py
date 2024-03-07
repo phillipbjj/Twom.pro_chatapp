@@ -36,7 +36,7 @@ def index(): #The index() function renders the index.html template, which will i
 def chatroom(): #The chat() function retrieves the chat messages from the MongoDB collection and renders the chat.html template with the messages
     #Retrieve chat messages from the database or cache
     chat_messages = list(message_collection.find().sort("timestamp", -1))
-    return render_template('chatroom.html', chat_messages=chat_messages) #chatroom.html !!!
+    return render_template('index.html', chat_messages=chat_messages) #chatroom.html !!!
 
 #SocketIO event handler for new messages    
 @socketio.on('message')
