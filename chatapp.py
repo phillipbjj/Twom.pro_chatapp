@@ -10,7 +10,7 @@ app.config['SECRET_KEY'] = 'secretkeyhere' #This key should be a random string a
 
 
 #MongoDB Client
-uri = "mongodb+srv://pjdempsey3:<Ilovebjj123>@twomprochat.ncz4mxt.mongodb.net/?retryWrites=true&w=majority&appName=Twomprochat"
+uri = "mongodb+srv://pjdempsey3:Ilovebjj123@twomprochat.ncz4mxt.mongodb.net/?retryWrites=true&w=majority&appName=Twomprochat"
 client = MongoClient(uri, server_api=ServerApi('1'))
 chat_db = client['ChatData']
 message_collection = chat_db['messageData']
