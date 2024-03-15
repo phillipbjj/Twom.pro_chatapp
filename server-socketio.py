@@ -6,7 +6,7 @@ app = socketio.WSGIApp(sio)
 
 # Define event handlers
 @sio.event
-def connect(sid, environ):
+def connect(sid):
     print('Client connected:', sid)
 
 @sio.event
@@ -14,7 +14,7 @@ def disconnect(sid):
     print('Client disconnected:', sid)
 
 @sio.event
-def handle_messages(sid, data):
+def handle_messages(data):
     sio.emit('chat message', data)
 
 # Run the Socket.IO server
