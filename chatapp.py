@@ -62,6 +62,6 @@ def handle_messages(data):
         'message': message,
         'timestamp': timestamp.strftime("%Y-%m-%d %H:%M:%S")
     }, broadcast=True)
-    
+#server-socketio Flask app entry point    
 if __name__ == '__main__':
-    socketio.run(app)
+    socketio.run(app(debug=True))
