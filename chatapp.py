@@ -64,4 +64,5 @@ def handle_messages(data):
     }, broadcast=True)
 #server-socketio Flask app entry point    
 if __name__ == '__main__':
-    socketio.run(app(debug=True))
+    socketio.run(app, debug=True)
+    
