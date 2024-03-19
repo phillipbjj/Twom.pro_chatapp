@@ -22,4 +22,4 @@ if __name__ == '__main__':
     import eventlet
     import eventlet.wsgi
 
-    eventlet.wsgi.server(eventlet.listen(('18.220.33.51', 5000)), app)
+    eventlet.wsgi.server(eventlet.listen(('127.0.0.1', 5000)), app) #'18.220.33.51'
