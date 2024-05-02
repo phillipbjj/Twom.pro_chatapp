@@ -31,7 +31,7 @@ def chatroom(): #The chat() function retrieves the chat messages from the MongoD
 def handle_messages(data):
     user = data.get('user', 'New User')
     message = data['message']
-    timestamp = datetime.datetime.now()
+    timestamp = datetime.datetime.now() #update
     
     #Broadcast the new message to all connected clients
     socketio.emit('new_message', {
